@@ -42,6 +42,10 @@ class MyBot < Shazbot
     serve_a_gif(data)
   end
 
+  said /\bfriend\b/ do |data|
+    find_the_friend(data)
+  end 
+
   condition ->(_){ !Wolfram.appid.nil? } do |data|
     wolfram_alpha_search(data)
   end
@@ -52,6 +56,21 @@ class MyBot < Shazbot
   end
 
 private
+  
+  #customize define
+  def find_the_friend(data)
+    begin
+      user_list = self.users
+      members = user_list.values.map(&:name)
+      name = members.sample
+      response = "hi, my friend <@#{name}>"
+    rescue
+      response = "Oops, error happen"
+    end
+    message channel: data.channel, text: response
+  end
+
+
   def say_current_temp(data)
     uri = URI.parse("http://api.openweathermap.org/data/2.5/weather?APPID=#{@weather_token}&q=#{URI.escape(data.text)}")
     begin

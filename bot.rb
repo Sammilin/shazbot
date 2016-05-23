@@ -3,4 +3,4 @@
 #
 require './lib/mybot'
 bot = MyBot.new(ENV['SHAZBOT_SLACK_TOKEN'])
-bot.start!
+bot.start! #realtime API
